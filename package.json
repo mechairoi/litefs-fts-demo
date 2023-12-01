@@ -3,9 +3,15 @@
   "module": "index.ts",
   "type": "module",
   "devDependencies": {
+    "@biomejs/biome": "1.4.1",
     "bun-types": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@hono/valibot-validator": "^0.2.1",
+    "hono": "^3.10.3",
+    "valibot": "^0.21.0"
   }
 }
