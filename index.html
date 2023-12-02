@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>LiteFS fts5 signal_tokenizer Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/picocss/1.5.10/pico.classless.min.css" />
+  </head>
+  <body>
+    <p>
+    Dataset: <a href="https://huggingface.co/datasets/fujiki/llm-japanese-dataset_wikipedia">https://huggingface.co/datasets/fujiki/llm-japanese-dataset_wikipedia</a><br/>
+    Source: <a href="https://dumps.wikimedia.org/">https://dumps.wikimedia.org/</a> <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>
+    </p>
+    <input id="search" type="search">
+    <ul id="results"></ul>
+    <script>
+      let controller;
+      const resultsElem = document.getElementById("results");
+      const searchInput = document.getElementById("search");
+      searchInput.addEventListener("input", function(event) {
+        const q = event.target.value;
+        if (controller) controller.abort();
+        if (q.length <= 0) {
+          resultsElem.innerHTML = "";
+          return;
+        }
+        controller = new AbortController();
+        fetch("/search?" + new URLSearchParams({q: q}).toString(), { signal: controller.signal })
+          .then(function(response) {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error("error");
+            }
+          })
+          .then(function(documents) {
+            resultsElem.innerHTML = "";
+            if (documents.length === 0) {
+              const li = document.createElement("li");
+              const i = document.createElement("i")
+              i.textContent = 'No results';
+              li.appendChild(i);
+              resultsElem.appendChild(li);
+            }
+            documents.forEach(function(result) {
+              const li = document.createElement("li");
+              const a = document.createElement("a");
+              a.href = "https://ja.wikipedia.org/wiki/" + encodeURIComponent(result.title);
+              a.textContent = result.title;
+              li.appendChild(a);
+              const p = document.createElement("p")
+              p.textContent = result.content;
+              li.appendChild(p);
+              resultsElem.appendChild(li);
+            });
+          }).catch(function() {});
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base"],
+  "labels": ["renovate"],
+  "pin": {
+    "automerge": true
+  },
+  "minimumReleaseAge": "4 days",
+  "internalChecksFilter": "strict",
+  "prHourlyLimit": 5,
+  "branchConcurrentLimit": 30,
+  "transitiveRemediation": true,
+  "timezone": "Asia/Tokyo",
+  "packageRules": [
+    {
+      "updateTypes": ["patch"],
+      "automerge": true
+    }
+  ]
+}

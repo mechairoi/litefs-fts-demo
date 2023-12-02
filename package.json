@@ -2,6 +2,11 @@
   "name": "litefs-fts-demo",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "fmt": "bunx @biomejs/biome format *.ts --write",
+    "lint": "bunx @biomejs/biome lint *.ts",
+    "fix": "bunx biome check --apply *.ts"
+  },
   "devDependencies": {
     "@biomejs/biome": "1.4.1",
     "bun-types": "latest"
