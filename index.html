@@ -15,10 +15,12 @@
     <ul id="results"></ul>
     <script>
       let controller;
+      let prevQuery;
       const resultsElem = document.getElementById("results");
       const searchInput = document.getElementById("search");
       searchInput.addEventListener("input", function(event) {
-        const q = event.target.value;
+        if (event.target.value === prevQuery) return;
+        const q = prevQuery = event.target.value;
         if (controller) controller.abort();
         if (q.length <= 0) {
           resultsElem.innerHTML = "";
