@@ -18,7 +18,7 @@ RUN bun install --frozen-lockfile --production
 FROM bun-deps AS bun-test
 RUN bun install --frozen-lockfile
 COPY --from=tokenizer /work/libsignal_tokenizer.so /app/lib/libsignal_tokenizer.so
-ADD app.ts app.spec.ts .
+ADD app.ts app.spec.ts index.html .
 
 FROM bun-deps AS bun-runner
 COPY --from=flyio/litefs:0.5.9 /usr/local/bin/litefs /usr/local/bin/litefs
